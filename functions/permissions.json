@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "masterji-online",
+  "private_key_id": "0801c4050677668b9bb353e1548b384dcb763bce",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCgXEIvpGnrjUzz\nSsBL2vc2pbwTUJl/P1LONr3qKaQCddSAENzPDoaSgEySy53bl5Q2vFyFq3uId4LQ\nPNXwQCsyhc9lf+vIs+DjqQhgxzp1VttEo1vPrCunJhW12+4Jz2o8qIaXZ1b12Cy/\n7oRQzHtkkuGO4Vv7i7bjrhJOJ8U0LEuzFwT39SLfSHzHvKecEQBNRQ2lKnaZnYhW\nWxtSkhR1ikIR3B9JzYSaBH95H7O3ExATcCV4rfwyvPQZbZgBsrNqSdbrxHLvxhcb\nICcGXcu667o/pggthkuCbYtdhem6+eNt+oqeqAbeabWY0jUWnUperu0k6PG02gxN\nLFIC/klvAgMBAAECggEAESRw/NfQwi9Q47crdvsZhJwoo/tF6r48Xgf9uvuoPo0V\nt3pV/cUZ6gJQwpEwDFVCsQE8y3CenDguYeVcTLpcrndzHsYTJgQ4omL49COIDRrJ\nBigyZzEKr5ZuKV/b1+z2IzWJbG5NyP/Kyi+3XE3SU64x8jdcFmKunTMys2vOnyTW\nbHaxh9kCWw6C3vXQYJpZAJdSOQKkNsCujFrkr/nw1Wi/aG8+kHxgTv8ApIu1IKLZ\nGPBQ77wExWSXAE3NUhar6pK2z80ALeiCxEcxt2xxcvC88zQdY1/mO9NjPdsRgAbS\n0McN98ChEUeMfPamIQqnFNIcoBUetgMKip77t00OdQKBgQDKyGRaxL0hSyhajudH\nEegRBSAfU5eLAOWPlRhVR5uLN5Uv/ToakzxAGujXaRUMNE431FL2GXUoT8anWc0f\nwE1/+r1QOZIIVBM4ROZPBHrmDfLWrLYb5/VSWj7LZQl5PvnoAJIlLjNsb4K7cvmp\ns8sZ2Keh7FR26kIz6LdNOMdsswKBgQDKccqttmx9ZsI4TMWj1TswbKe3yAOnOFbr\niCZAd0i5RLhzIgN0eK5vTYdhXDXuSMLSAX2lRpIVvJS1dFqAW/9Xv5+r96NDBPXR\nvp2mSgAMofLCmp1RloyC5WMqW13omOE9GZmHX+er2SvdiSpTbcE5VLWaNA1Ysy3v\ndkzlhlkGVQKBgATHA9Y/nFUUeDbp9vjtqxH7lO4oAgH8W2wujwwzS67T+GfRB3Vo\n0pqQB7xLdXt8H/ugvPOfVetFNeDrdLGyziCdv6gMMyyPDoTc2rAx4tNYsMft+bxe\nkqEGD0SrdLWujiSxHsBRflSnq+TOqKMe4UISoKBn+PV0P2sJqIfhNpGRAoGAcrwx\nSWilbiEKHExuix7zj8tU9tTWNTS6Fn0waMLyJYZsH1x8pssq2YwQGT7gle8I82rC\n4iPv8X/SrFCIZk09l2bUQOt1zSsHgttMkA1Kn949LsvgM3hmpF0LadskiwnyReW3\nXMEfFQddVA5EPcprg2meDwpHMilC9H+Qr1kIJY0CgYEAmLISmX8PGclVxrEqhGMn\nWZb948/jVD1K/AGtFzcA5uh71FHB7eBKgfpk1C2iuNYVK3FV+6oXGRkWEd9wuRnq\nRx9um+UW/jAy3XwENFkYSWItoAyjreK8rI4QN6AaMWo6bTO/QX/Fd4gBbIQzoDdv\nL35Nq68KLLhO9UgwB7U3He0=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-9tjcv@masterji-online.iam.gserviceaccount.com",
+  "client_id": "113786420715317829933",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-9tjcv%40masterji-online.iam.gserviceaccount.com"
+}
