@@ -22,6 +22,7 @@ app.get('/', (req, res) => {
 
 app.use(require('./customers/index.js'));
 app.use(require('./Fabric Shops/index.js'));
+app.use(require('./Consultant Booking/index.js'));
 
 
 //Export api to cloud functions
