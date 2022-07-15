@@ -3,7 +3,7 @@ const db = admin.firestore();
 const router = require("express").Router();
 
 // Create
-router.post('/v2/post', async (req, res) => {
+router.post('/customers/v2/post', async (req, res) => {
     try {
 const postDATA = await db.collection('customers').doc('/' + req.body.id + '/')
 .create({
@@ -20,7 +20,7 @@ const postDATA = await db.collection('customers').doc('/' + req.body.id + '/')
 });
 
 //Read  alll data
-router.get('/v2/get', async (req, res) => {
+router.get('/customers/v2/get', async (req, res) => {
 try {
     const collData = db.collection('customers');
     collData.get().then((querySnapshot) => {
@@ -37,7 +37,7 @@ try {
 });
 
 //Read Single data
-router.get('/v2/get/:id', async (req, res) => {
+router.get('/customers/v2/get/:id', async (req, res) => {
 try {
     const document = db.collection('customers').doc(req.params.id);
     const customers = await document.get();
@@ -50,7 +50,7 @@ try {
 });
 
 //Update
-router.put('/v2/put/:id', async (req, res) => {
+router.put('/customers/v2/put/:id', async (req, res) => {
 try {
     const document = db.collection('customers').doc(req.params.id);
     const updateDATA = await document.update({
@@ -68,7 +68,7 @@ try {
 
 
 //Delete
-router.delete('/v2/delete/:id', async (req, res) => {
+router.delete('/customers/v2/delete/:id', async (req, res) => {
 try {
     const document = db.collection('customers').doc(req.params.id);
     const deleteDATA = await document.delete();
