@@ -3,10 +3,10 @@ const db = admin.firestore();
 const router = require("express").Router();
 
 // Create
-router.post('/consultantbooking/v2/post', async (req, res) => {
+router.post('/v2/post', async (req, res) => {
     try {
-    const postDATA = await db.collection('fashionConsultantBooking').doc('/' + req.body.id + '/')
-    .create({
+    const postDATA = await db.collection('fashionConsultantBooking')
+    .add({
         amount: req.body.amount,
         bookingDate: req.body.bookingDate,
         bookingId: req.body.bookingId,
@@ -27,7 +27,7 @@ router.post('/consultantbooking/v2/post', async (req, res) => {
 });
 
 //Update
-router.put('/consultantbooking/v2/put/:id', async (req, res) => {
+router.put('/v2/put/:id', async (req, res) => {
     try {
         const document = db.collection('fashionConsultantBooking').doc(req.params.id);
         const updateDATA = await document.update({
@@ -51,7 +51,7 @@ router.put('/consultantbooking/v2/put/:id', async (req, res) => {
     });
 
 //Read  alll data
-router.get('/consultantbooking/v2/get', async (req, res) => {
+router.get('/v2/get', async (req, res) => {
 try {
     const collData = db.collection('fashionConsultantBooking');
     collData.get().then((querySnapshot) => {
@@ -68,7 +68,7 @@ try {
 });
 
 //Read Single data
-router.get('/consultantbooking/v2/get/:id', async (req, res) => {
+router.get('/v2/get/:id', async (req, res) => {
 try {
     const document = db.collection('fashionConsultantBooking').doc(req.params.id);
     const getDoc = await document.get();
@@ -82,7 +82,7 @@ try {
 
 
 //Delete
-router.delete('/consultantbooking/v2/delete/:id', async (req, res) => {
+router.delete('/v2/delete/:id', async (req, res) => {
 try {
     const document = db.collection('fashionConsultantBooking').doc(req.params.id);
     const deleteDATA = await document.delete();

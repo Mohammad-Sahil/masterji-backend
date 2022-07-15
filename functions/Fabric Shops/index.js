@@ -3,10 +3,10 @@ const db = admin.firestore();
 const router = require("express").Router();
 
 // Create
-router.post('/fabricshops/v2/post', async (req, res) => {
+router.post('/v2/post', async (req, res) => {
     try {
-const postDATA = await db.collection('fabricShops').doc('/' + req.body.id + '/')
-.create({
+const postDATA = await db.collection('fabricShops')
+.add({
     address: req.body.address,
     city: req.body.city,
     contact: req.body.contact,
@@ -26,7 +26,7 @@ const postDATA = await db.collection('fabricShops').doc('/' + req.body.id + '/')
 });
 
 //Update
-router.put('/fabricshops/v2/put/:id', async (req, res) => {
+router.put('/v2/put/:id', async (req, res) => {
     try {
         const document = db.collection('fabricShops').doc(req.params.id);
         const updateDATA = await document.update({
@@ -49,7 +49,7 @@ router.put('/fabricshops/v2/put/:id', async (req, res) => {
     });
 
 //Read  alll data
-router.get('/fabricshops/v2/get', async (req, res) => {
+router.get('/v2/get', async (req, res) => {
 try {
     const collData = db.collection('fabricShops');
     collData.get().then((querySnapshot) => {
@@ -66,7 +66,7 @@ try {
 });
 
 //Read Single data
-router.get('/fabricshops/v2/get/:id', async (req, res) => {
+router.get('/v2/get/:id', async (req, res) => {
 try {
     const document = db.collection('fabricShops').doc(req.params.id);
     const getDoc = await document.get();
@@ -80,7 +80,7 @@ try {
 
 
 //Delete
-router.delete('/fabricshops/v2/delete/:id', async (req, res) => {
+router.delete('/v2/delete/:id', async (req, res) => {
 try {
     const document = db.collection('fabricShops').doc(req.params.id);
     const deleteDATA = await document.delete();

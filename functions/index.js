@@ -4,7 +4,6 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const serviceAccount = require("./permissions.json");
-// const customers =  ;
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -20,11 +19,13 @@ app.get('/', (req, res) => {
    res.send('<h1> Running....... </h1>');
 });
 
-app.use(require('./customers/index.js'));
-app.use(require('./Fabric Shops/index.js'));
-app.use(require('./Consultant Booking/index.js'));
-app.use("query", require('./query/index.js'));
-app.use("aboutus", require('./aboutus/index.js'));
+app.use("/customers", require('./customers/index.js'));
+app.use("/fabricshops", require('./Fabric Shops/index.js'));
+app.use("/consultantbooking", require('./Consultant Booking/index.js'));
+app.use("/query", require('./query/index.js'));
+app.use("/faqs", require('./faqs/index.js'));
+app.use("/garments", require('./garments/index.js'));
+app.use("/aboutus", require('./aboutus/index.js'));
 
 
 //Export api to cloud functions
