@@ -23,7 +23,7 @@ app.get("/", (req, res) => {
 app.use("/customers", require("./customers/index.js"));
 app.use("/fabricshops", require("./Fabric Shops/index.js"));
 app.use("/consultantbooking", require("./Consultant Booking/index.js"));
-app.use("/fashionconsultant", require("./FashionConsultant/index.js"));
+app.use("/fashionconsultant", require("./fashionConsultant/index.js"));
 app.use("/query", require("./query/index.js"));
 app.use("/faqs", require("./faqs/index.js"));
 app.use("/garments", require("./garments/index.js"));
