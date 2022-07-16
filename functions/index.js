@@ -24,11 +24,13 @@ app.get("/", (req, res) => {
 app.use("/customers", require('./customers/index.js'));
 app.use("/fabricshops", require('./Fabric Shops/index.js'));
 app.use("/consultantbooking", require('./Consultant Booking/index.js'));
+app.use("/fashionConsultant", require('./fashionConsultant/index.js'));
 app.use("/query", require('./query/index.js'));
 app.use("/faqs", require('./faqs/index.js'));
 app.use("/orders", require('./orders/index.js'));
 app.use("/garments", require('./garments/index.js'));
 app.use("/aboutus", require('./aboutus/index.js'));
+
 
 //Export api to cloud functions
 exports.app = functions.https.onRequest(app);
