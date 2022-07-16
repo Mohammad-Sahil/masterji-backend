@@ -6,17 +6,18 @@ const app = express();
 const serviceAccount = require("./permissions.json");
 
 admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.cert(serviceAccount),
 });
 
-app.use(cors({
+app.use(
+  cors({
     origin: true,
-}));
-
+  })
+);
 
 // Route
-app.get('/', (req, res) => {
-   res.send('<h1> Running....... </h1>');
+app.get("/", (req, res) => {
+  res.send("<h1> Running....... </h1>");
 });
 
 
@@ -29,8 +30,5 @@ app.use("/orders", require('./orders/index.js'));
 app.use("/garments", require('./garments/index.js'));
 app.use("/aboutus", require('./aboutus/index.js'));
 
-
 //Export api to cloud functions
- exports.app = functions.https.onRequest(app);
-
-
+exports.app = functions.https.onRequest(app);
