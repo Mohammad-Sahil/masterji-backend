@@ -30,6 +30,9 @@ app.use("/faqs", require('./faqs/index.js'));
 app.use("/orders", require('./orders/index.js'));
 app.use("/garments", require('./garments/index.js'));
 app.use("/aboutus", require('./aboutus/index.js'));
+app.use("/warehouses", require('./warehouses/index.js'));
+app.use("/executives", require('./executives/index.js'));
+app.use("/tailors", require('./tailors/index.js'));
 
 
 //Export api to cloud functions

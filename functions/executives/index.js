@@ -5,15 +5,13 @@ const router = require("express").Router();
 // Create
 router.post("/v2/post", async (req, res) => {
   try {
-    const prevDoc = db.collection("faqs").doc(req.params.id);
-    const queries = await prevDoc.get();
-    const getDATA = queries.data();
-
-    const postDATA = await db.collection("faqs").add({
-      createdAt: new Date(),
-      no: req.body.no || getDATA.no,
-      ques: req.body.ques || getDATA.ques,
-      solution: req.body.solution || getDATA.solution,
+    const postDATA = await db.collection("executives").add({
+      address: req.body.address,
+      assignedArea: req.body.assignedArea,
+      city: req.body.city,
+      email: req.body.email,
+      name: req.body.name,
+      pincode: req.body.pincode,
     });
     return res.status(200).send(postDATA);
   } catch (error) {
@@ -25,12 +23,18 @@ router.post("/v2/post", async (req, res) => {
 //Update
 router.put("/v2/put/:id", async (req, res) => {
   try {
-    const document = db.collection("faqs").doc(req.params.id);
+    const prevDoc = db.collection("executives").doc(req.params.id);
+    const queries = await prevDoc.get();
+    const getDATA = queries.data();
+
+    const document = db.collection("executives").doc(req.params.id);
     const updateDATA = await document.update({
-      createdAt: new Date(),
-      no: req.body.no,
-      ques: req.body.ques,
-      solution: req.body.solution,
+      address: req.body.address || getDATA.address,
+      assignedArea: req.body.assignedArea || getDATA.assignedArea,
+      city: req.body.city || getDATA.city,
+      email: req.body.email || getDATA.email,
+      name: req.body.name || getDATA.name,
+      pincode: req.body.pincode || getDATA.pincode,
     });
     return res.status(200).send(updateDATA);
   } catch (error) {
@@ -42,7 +46,7 @@ router.put("/v2/put/:id", async (req, res) => {
 //Read  alll data
 router.get("/v2/get", async (req, res) => {
   try {
-    const collData = db.collection("faqs");
+    const collData = db.collection("executives");
     collData.get().then((querySnapshot) => {
       const getDATA = [];
       querySnapshot.forEach((doc) => {
@@ -59,7 +63,7 @@ router.get("/v2/get", async (req, res) => {
 //Read Single data
 router.get("/v2/get/:id", async (req, res) => {
   try {
-    const document = db.collection("faqs").doc(req.params.id);
+    const document = db.collection("executives").doc(req.params.id);
     const getDoc = await document.get();
     const getDATA = getDoc.data();
     return res.status(200).send(getDATA);
@@ -72,7 +76,7 @@ router.get("/v2/get/:id", async (req, res) => {
 //Delete
 router.delete("/v2/delete/:id", async (req, res) => {
   try {
-    const document = db.collection("faqs").doc(req.params.id);
+    const document = db.collection("executives").doc(req.params.id);
     const deleteDATA = await document.delete();
     return res.status(200).send(deleteDATA);
   } catch (error) {
