@@ -2,6 +2,12 @@ const admin = require("firebase-admin");
 const db = admin.firestore();
 const router = require("express").Router();
 
+// Utils
+const getDate = () => {
+    var offset = -8;
+    return new Date( new Date().getTime() + offset * 3600 * 1000).toUTCString().replace( / GMT$/, "" );
+  };
+
 // Create
 router.post('/v2/post', async (req, res) => {
     try {
@@ -16,7 +22,7 @@ const postDATA = await db.collection('fabricShops')
     shopVariety: req.body.shopVariety,
     specialisation: req.body.specialisation,
     userImage: req.body.userImage,
-    created: new Date(),
+    created: getDate(),
 });
         return res.status(200).send(postDATA);
     } catch (error) {
@@ -39,7 +45,7 @@ router.put('/v2/put/:id', async (req, res) => {
             shopVariety: req.body.shopVariety,
             specialisation: req.body.specialisation,
             userImage: req.body.userImage,
-            created: new Date(),
+            created: getDate(),
         });
         return res.status(200).send(updateDATA);
     } catch (error) {

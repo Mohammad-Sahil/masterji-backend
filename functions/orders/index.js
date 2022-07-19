@@ -19,8 +19,8 @@ router.post('/v2/post', async (req, res) => {
             currentStatus: req.body.currentStatus,
             commentData: req.body.commentData,
             cancelReason: req.body.cancelReason,
-            bookingTime: req.body.bookingTime,
-            bookingDate: new Date(),
+            bookingTime: new Date().getTime(),
+            bookingDate: new Date().getDate(),
         });
         return res.status(200).send(postDATA);
     } catch (error) {

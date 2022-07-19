@@ -1,6 +1,11 @@
 const admin = require("firebase-admin");
 const db = admin.firestore();
 const router = require("express").Router();
+// Utils
+const getDate = () => {
+    var offset = -8;
+    return new Date( new Date().getTime() + offset * 3600 * 1000).toUTCString().replace( / GMT$/, "" );
+  };
 
 // Create
 router.post('/v2/post', async (req, res) => {
@@ -15,7 +20,7 @@ router.post('/v2/post', async (req, res) => {
         consultantImage: req.body.consultantImage,
         consultantName: req.body.consultantName,
         expertise: req.body.expertise,
-        orderDate: new Date(),
+        orderDate: getDate(),
         paymentId: req.body.paymentId,
         userId: req.body.userId,
     });
@@ -39,7 +44,7 @@ router.put('/v2/put/:id', async (req, res) => {
             consultantImage: req.body.consultantImage,
             consultantName: req.body.consultantName,
             expertise: req.body.expertise,
-            orderDate: new Date(),
+            orderDate: getDate(),
             paymentId: req.body.paymentId,
             userId: req.body.userId,
         });

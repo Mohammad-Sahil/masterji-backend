@@ -2,19 +2,23 @@ const admin = require("firebase-admin");
 const db = admin.firestore();
 const router = require("express").Router();
 
+// Utils
+let increment=1;
+const getDate = () => {
+  var offset = -8;
+  return new Date( new Date().getTime() + offset * 3600 * 1000).toUTCString().replace( / GMT$/, "" );
+};
+
 // Create
 router.post("/v2/post", async (req, res) => {
   try {
-    const prevDoc = db.collection("faqs").doc(req.params.id);
-    const queries = await prevDoc.get();
-    const getDATA = queries.data();
-
     const postDATA = await db.collection("faqs").add({
-      createdAt: new Date(),
-      no: req.body.no || getDATA.no,
-      ques: req.body.ques || getDATA.ques,
-      solution: req.body.solution || getDATA.solution,
+      createdAt: getDate(),
+      no: increment,
+      ques: req.body.ques,
+      solution: req.body.solution,
     });
+    increment++;
     return res.status(200).send(postDATA);
   } catch (error) {
     console.log(error);
@@ -25,12 +29,16 @@ router.post("/v2/post", async (req, res) => {
 //Update
 router.put("/v2/put/:id", async (req, res) => {
   try {
+    const prevDoc = db.collection("faqs").doc(req.params.id);
+    const queries = await prevDoc.get();
+    const getDATA = queries.data();
+
     const document = db.collection("faqs").doc(req.params.id);
     const updateDATA = await document.update({
-      createdAt: new Date(),
-      no: req.body.no,
-      ques: req.body.ques,
-      solution: req.body.solution,
+      createdAt: getDATA.no,
+      no: getDATA.no,
+      ques: req.body.ques || getDATA.ques,
+      solution: req.body.solution || getDATA.solution,
     });
     return res.status(200).send(updateDATA);
   } catch (error) {
@@ -74,6 +82,7 @@ router.delete("/v2/delete/:id", async (req, res) => {
   try {
     const document = db.collection("faqs").doc(req.params.id);
     const deleteDATA = await document.delete();
+    increment--;
     return res.status(200).send(deleteDATA);
   } catch (error) {
     console.log(error);
