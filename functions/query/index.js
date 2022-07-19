@@ -5,22 +5,27 @@ const router = require("express").Router();
 // Utils
 const getDate = () => {
   var offset = -8;
-  return new Date( new Date().getTime() + offset * 3600 * 1000).toUTCString().replace( / GMT$/, "" );
+  return new Date(new Date().getTime() + offset * 3600 * 1000)
+    .toUTCString()
+    .replace(/ GMT$/, "");
 };
 
 // Create
 router.post("/v2/post", async (req, res) => {
   try {
-    const postDATA = await db
-      .collection("query")
-      .add({
-        date: getDate(),
-        email: req.body.email,
-        message: req.body.message,
-        resolved: req.body.resolved,
-        updatedAt: getDate(),
-      });
-    return res.status(200).send(postDATA);
+    const postDATA = await db.collection("query").add({
+      date: getDate(),
+      email: req.body.email,
+      message: req.body.message,
+      resolved: req.body.resolved,
+      updatedAt: getDate(),
+    });
+    return res.status(200).send(
+      JSON.stringify({
+        message: "Query posted successfully",
+        data: postDATA,
+      })
+    );
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
@@ -71,7 +76,12 @@ router.put("/v2/put/:id", async (req, res) => {
       resolved: req.body.resolved || getDATA.resolved,
       updatedAt: getDate(),
     });
-    return res.status(200).send(updateDATA);
+    return res.status(200).send(
+      JSON.stringify({
+        message: "Query updated successfully",
+        data: updateDATA,
+      })
+    );
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
@@ -83,7 +93,12 @@ router.delete("/v2/delete/:id", async (req, res) => {
   try {
     const document = db.collection("query").doc(req.params.id);
     const deleteDATA = await document.delete();
-    return res.status(200).send(deleteDATA);
+    return res.status(200).send(
+      JSON.stringify({
+        message: "Query updated successfully",
+        data: deleteDATA,
+      })
+    );
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);

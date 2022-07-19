@@ -3,23 +3,37 @@ const db = admin.firestore();
 const router = require("express").Router();
 
 // Utils
-let increment=1;
 const getDate = () => {
   var offset = -8;
-  return new Date( new Date().getTime() + offset * 3600 * 1000).toUTCString().replace( / GMT$/, "" );
+  return new Date(new Date().getTime() + offset * 3600 * 1000)
+    .toUTCString()
+    .replace(/ GMT$/, "");
+};
+const getMarker = async () => {
+  const snapshot = await firebase.firestore().collection("faqs").get();
+  return snapshot.docs.map((doc) => doc.data());
 };
 
 // Create
 router.post("/v2/post", async (req, res) => {
   try {
+    const count = await db
+      .collection("faqs")
+      .get()
+      .then((res) => res.size);
     const postDATA = await db.collection("faqs").add({
       createdAt: getDate(),
-      no: increment,
+      no: count + 1,
       ques: req.body.ques,
       solution: req.body.solution,
     });
-    increment++;
-    return res.status(200).send(postDATA);
+
+    return res.status(200).send(
+      JSON.stringify({
+        message: "FAQ posted successfully",
+        data: postDATA,
+      })
+    );
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
@@ -35,12 +49,17 @@ router.put("/v2/put/:id", async (req, res) => {
 
     const document = db.collection("faqs").doc(req.params.id);
     const updateDATA = await document.update({
-      createdAt: getDATA.no,
+      createdAt: getDate(),
       no: getDATA.no,
       ques: req.body.ques || getDATA.ques,
       solution: req.body.solution || getDATA.solution,
     });
-    return res.status(200).send(updateDATA);
+    return res.status(200).send(
+      JSON.stringify({
+        message: "FAQ updated successfully",
+        data: updateDATA,
+      })
+    );
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
@@ -82,8 +101,12 @@ router.delete("/v2/delete/:id", async (req, res) => {
   try {
     const document = db.collection("faqs").doc(req.params.id);
     const deleteDATA = await document.delete();
-    increment--;
-    return res.status(200).send(deleteDATA);
+    return res.status(200).send(
+      JSON.stringify({
+        messsage: "FAQ is deleted successfully",
+        data: deleteDATA,
+      })
+    );
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
