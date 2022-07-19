@@ -5,6 +5,8 @@ const cors = require("cors");
 const app = express();
 const serviceAccount = require("./permissions.json");
 
+app.use(express.json());
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });

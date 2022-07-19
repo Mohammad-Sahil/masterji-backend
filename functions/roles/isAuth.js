@@ -1,25 +1,19 @@
 const jwt = require("jsonwebtoken");
 require('dotenv').config();
+const admin = require("firebase-admin");
+const db = admin.firestore();
 
-const isAuthenticated = (req, res, next) => {
+const isAuthenticated = async (req, res, next) => {
   try {
-      // const authHeader = req.headers["authorization"] || req.cookies.jwt;
-      // const token = authHeader && authHeader.split(" ")[1];
-      const cookie = req.cookies.jwt;
+      const authHeader = req.headers["authorization"] || req.cookies.jwt;
+      const cookie = authHeader;
+      // const cookie = req.cookies.jwt;
       if (!cookie) return res.sendStatus(401);
-      const tokenVarify = jwt.verify(cookie,process.env.SECRET_KEY, async (err, user) => {
-        if (err) {
-          return res.sendStatus(403);
-        }
-        req.user = user;
-        next();
-      });
-      const snapshot = await db.collection('roles').where('_id', '==', tokenVarify._id).get();
-      const docs = [];
-      snapshot.forEach(doc => {
-          docs.push({ id: doc.id, ...doc.data() });
-      });
-      req.user = docs[0];
+      const tokenVarify = jwt.verify(cookie, process.env.SECRET_KEY);
+      const document = db.collection('roles').doc(tokenVarify._id);
+      const getDoc = await document.get();
+      const getDATA = getDoc.data();
+      req.user = getDATA;
       req.cookie = cookie;
       next()
   } catch (error) {
