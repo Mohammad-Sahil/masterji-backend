@@ -5,10 +5,11 @@ const db = admin.firestore();
 
 const isAuthenticated = async (req, res, next) => {
   try {
-      const authHeader = req.headers["authorization"] || req.cookies.jwt;
+      const authHeader = req.headers["authorization"];
       const cookie = authHeader;
       // const cookie = req.cookies.jwt;
       if (!cookie) return res.sendStatus(401);
+      console.log(authHeader)
       const tokenVarify = jwt.verify(cookie, process.env.SECRET_KEY);
       const document = db.collection('roles').doc(tokenVarify._id);
       const getDoc = await document.get();

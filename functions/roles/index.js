@@ -35,9 +35,6 @@ router.post('/v2/register', async (req, res) => {
                     token: [{token:token}],
                     createdAt: new Date()
                 });
-                res.cookie('jwt',token,{
-                    httpOnly: true
-                });
                 return res.status(200).json({
                     message: "Acc successfully created",
                     token: token
@@ -79,9 +76,6 @@ router.post('/v2/login', async (req, res) => {
             token: docs[0].token.concat({token: token})
         })
         console.log(updateDATA);
-        res.cookie('jwt',token,{
-            httpOnly: true
-        });
         res.status(200).json({
             message: "Login Successful",
             user: [{
