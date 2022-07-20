@@ -15,6 +15,7 @@ const isAuthenticated = async (req, res, next) => {
       const getDATA = getDoc.data();
       req.user = getDATA;
       req.cookie = cookie;
+      req._id = tokenVarify._id;
       next()
   } catch (error) {
     res.status(200).send(error)

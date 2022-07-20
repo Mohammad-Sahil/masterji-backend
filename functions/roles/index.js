@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const uniqid = require("uniqid");
+const isAuthenticated = require("./isAuth");
 
 // Create user
 router.post('/v2/register', async (req, res) => {
@@ -99,8 +100,29 @@ router.post('/v2/login', async (req, res) => {
     } catch (error) {
         console.log(error);
         return res.status(500).json({
-            message: "invalid",
+            message: "invalid credentials",
           });
+    }
+});
+
+// Logout 
+router.get('/v2/logout', isAuthenticated, async(req,res) => {
+    try {
+        const document = db.collection('roles').doc(req._id);
+        const updateDATA = await document.update({
+            password: req.user.password,
+            email: req.user.email,
+            name: req.user.name,
+            role: req.user.role,
+            createdAt: req.user.createdAt,
+            token: []
+        })
+        res.clearCookie('jwt');
+        res.status(200).json({
+            message: "Logout Successful"
+        })
+    } catch (error) {
+       res.status(500).send(error); 
     }
 });
 
@@ -146,13 +168,18 @@ try {
 }
 });
 
-//Read Single data
-router.get('/v2/get/:id', async (req, res) => {
+//Read Single data /me
+router.get('/v2/me', isAuthenticated,async (req, res) => {
 try {
-    const document = db.collection('roles').doc(req.params.id);
+    const document = db.collection('roles').doc(req._id);
     const getDoc = await document.get();
     const getDATA = getDoc.data();
-    return res.status(200).send(getDATA);
+    return res.status(200).send({
+        name: getDATA.name,
+        email: getDATA.email,
+        role: getDATA.role,
+        token: getDATA.token
+    });
 } catch (error) {
     console.log(error);
     return res.status(500).send(error);
