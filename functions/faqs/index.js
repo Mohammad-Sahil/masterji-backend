@@ -2,20 +2,38 @@ const admin = require("firebase-admin");
 const db = admin.firestore();
 const router = require("express").Router();
 
+// Utils
+const getDate = () => {
+  var offset = -8;
+  return new Date(new Date().getTime() + offset * 3600 * 1000)
+    .toUTCString()
+    .replace(/ GMT$/, "");
+};
+const getMarker = async () => {
+  const snapshot = await firebase.firestore().collection("faqs").get();
+  return snapshot.docs.map((doc) => doc.data());
+};
+
 // Create
 router.post("/v2/post", async (req, res) => {
   try {
-    const prevDoc = db.collection("faqs").doc(req.params.id);
-    const queries = await prevDoc.get();
-    const getDATA = queries.data();
-
+    const count = await db
+      .collection("faqs")
+      .get()
+      .then((res) => res.size);
     const postDATA = await db.collection("faqs").add({
-      createdAt: new Date(),
-      no: req.body.no || getDATA.no,
-      ques: req.body.ques || getDATA.ques,
-      solution: req.body.solution || getDATA.solution,
+      createdAt: getDate(),
+      no: count + 1,
+      ques: req.body.ques,
+      solution: req.body.solution,
     });
-    return res.status(200).send(postDATA);
+
+    return res.status(200).send(
+      JSON.stringify({
+        message: "FAQ posted successfully",
+        data: postDATA,
+      })
+    );
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
@@ -25,14 +43,23 @@ router.post("/v2/post", async (req, res) => {
 //Update
 router.put("/v2/put/:id", async (req, res) => {
   try {
+    const prevDoc = db.collection("faqs").doc(req.params.id);
+    const queries = await prevDoc.get();
+    const getDATA = queries.data();
+
     const document = db.collection("faqs").doc(req.params.id);
     const updateDATA = await document.update({
-      createdAt: new Date(),
-      no: req.body.no,
-      ques: req.body.ques,
-      solution: req.body.solution,
+      createdAt: getDate(),
+      no: getDATA.no,
+      ques: req.body.ques || getDATA.ques,
+      solution: req.body.solution || getDATA.solution,
     });
-    return res.status(200).send(updateDATA);
+    return res.status(200).send(
+      JSON.stringify({
+        message: "FAQ updated successfully",
+        data: updateDATA,
+      })
+    );
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
@@ -74,7 +101,12 @@ router.delete("/v2/delete/:id", async (req, res) => {
   try {
     const document = db.collection("faqs").doc(req.params.id);
     const deleteDATA = await document.delete();
-    return res.status(200).send(deleteDATA);
+    return res.status(200).send(
+      JSON.stringify({
+        messsage: "FAQ is deleted successfully",
+        data: deleteDATA,
+      })
+    );
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);

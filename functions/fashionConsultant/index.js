@@ -10,15 +10,20 @@ router.post("/v2/post", async (req, res) => {
       contact: req.body.contact,
       email: req.body.email,
       expertise: req.body.expertise,
-      name:req.body.name,
-      rate:req.body.rate,
+      name: req.body.name,
+      rate: req.body.rate,
       // image firebase url
-      userImage: "userimage",
+      userImage: req.body.userImage,
       workExperience: req.body.workExperience,
       //worksample images urls
-      workSamples: ["work","samples"]
+      workSamples: ["work", "samples"],
     });
-    return res.status(200).send(postDATA);
+    return res.status(200).send(
+      JSON.stringify({
+        message: "Fashion consultant details posted successfully",
+        data: postDATA,
+      })
+    );
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
@@ -38,15 +43,20 @@ router.put("/v2/put/:id", async (req, res) => {
       contact: req.body.contact || getDATA.contact,
       email: req.body.email || getDATA.email,
       expertise: req.body.expertise || getDATA.expertise,
-      name:req.body.name || getDATA.name,
-      rate:req.body.rate || getDATA.rate,
+      name: req.body.name || getDATA.name,
+      rate: req.body.rate || getDATA.rate,
       // image firebase url
       userImage: "userimage" || getDATA.userImage,
       workExperience: req.body.workExperience || getDATA.workExperience,
       //worksample images urls
-      workSamples: ["work","samples"] || getDATA.workSamples
+      workSamples: ["work", "samples"] || getDATA.workSamples,
     });
-    return res.status(200).send(updateDATA);
+    return res.status(200).send(
+      JSON.stringify({
+        message: "Fashion consultant details updated successfully",
+        data: updateDATA,
+      })
+    );
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
@@ -88,7 +98,12 @@ router.delete("/v2/delete/:id", async (req, res) => {
   try {
     const document = db.collection("fashionConsultant").doc(req.params.id);
     const deleteDATA = await document.delete();
-    return res.status(200).send(deleteDATA);
+    return res.status(200).send(
+      JSON.stringify({
+        message: "Fashion consultant details deleted successfully",
+        data: deleteDATA,
+      })
+    );
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);

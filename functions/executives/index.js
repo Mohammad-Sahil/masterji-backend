@@ -13,7 +13,12 @@ router.post("/v2/post", async (req, res) => {
       name: req.body.name,
       pincode: req.body.pincode,
     });
-    return res.status(200).send(postDATA);
+    return res.status(200).send(
+      JSON.stringify({
+        message: "Executives details added successfully",
+        data: postDATA,
+      })
+    );
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
@@ -36,7 +41,12 @@ router.put("/v2/put/:id", async (req, res) => {
       name: req.body.name || getDATA.name,
       pincode: req.body.pincode || getDATA.pincode,
     });
-    return res.status(200).send(updateDATA);
+    return res.status(200).send(
+      JSON.stringify({
+        message: "Executive details updated successfully",
+        data: updateDATA,
+      })
+    );
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
@@ -78,7 +88,12 @@ router.delete("/v2/delete/:id", async (req, res) => {
   try {
     const document = db.collection("executives").doc(req.params.id);
     const deleteDATA = await document.delete();
-    return res.status(200).send(deleteDATA);
+    return res.status(200).send(
+      JSON.stringify({
+        message: "Executive details deleted successfully",
+        data: deleteDATA,
+      })
+    );
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
