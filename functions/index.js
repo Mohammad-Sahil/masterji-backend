@@ -4,6 +4,11 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const serviceAccount = require("./permissions.json");
+const cookieParser = require('cookie-parser');
+
+app.use(express.json());
+app.use(cookieParser());
+app.use(express.urlencoded({extended: false})); 
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -33,6 +38,8 @@ app.use("/aboutus", require('./aboutus/index.js'));
 app.use("/warehouses", require('./warehouses/index.js'));
 app.use("/executives", require('./executives/index.js'));
 app.use("/tailors", require('./tailors/index.js'));
+app.use("/auth", require('./roles/index.js'));
+app.use("/forgot", require('./roles/forgot.js'));
 
 
 //Export api to cloud functions
