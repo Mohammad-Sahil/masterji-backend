@@ -7,7 +7,7 @@ router.post("/v2/post", async (req, res) => {
   try {
     const postDATA = await db
       .collection("executives")
-      .doc(String(req.body.id))
+      .doc(String(req.body.phoneNumber))
       .set({
         address: req.body.address,
         assignedArea: req.body.assignedArea,
@@ -15,6 +15,8 @@ router.post("/v2/post", async (req, res) => {
         email: req.body.email,
         name: req.body.name,
         pincode: req.body.pincode,
+        phoneNumber: req.body.phoneNumber,
+        id: req.body.phoneNumber,
       });
     return res.status(200).send(
       JSON.stringify({
@@ -38,6 +40,7 @@ router.put("/v2/put/:id", async (req, res) => {
     const document = db.collection("executives").doc(req.params.id);
     const updateDATA = await document.update({
       id: req.body.phoneNumber || getDATA.phoneNumber,
+      phoneNumber: req.body.phoneNumber || getDATA.phoneNumber,
       address: req.body.address || getDATA.address,
       assignedArea: req.body.assignedArea || getDATA.assignedArea,
       city: req.body.city || getDATA.city,
