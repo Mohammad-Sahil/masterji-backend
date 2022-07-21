@@ -28,10 +28,15 @@ router.post("/v2/post", async (req, res) => {
       solution: req.body.solution,
     });
 
+    const prevDoc = db.collection("faqs").doc(postDATA._path.segments[1]);
+    const queries = await prevDoc.get();
+    const getDATA = queries.data();
+
     return res.status(200).send(
       JSON.stringify({
         message: "FAQ posted successfully",
-        data: postDATA,
+        data: getDATA,
+        postData: postDATA,
       })
     );
   } catch (error) {
@@ -43,21 +48,27 @@ router.post("/v2/post", async (req, res) => {
 //Update
 router.put("/v2/put/:id", async (req, res) => {
   try {
-    const prevDoc = db.collection("faqs").doc(req.params.id);
-    const queries = await prevDoc.get();
-    const getDATA = queries.data();
+    let prevDoc = db.collection("faqs").doc(req.params.id);
+    let queries = await prevDoc.get();
+    let getDATA = queries.data();
 
     const document = db.collection("faqs").doc(req.params.id);
     const updateDATA = await document.update({
-      createdAt: getDate(),
+      createdAt: getDATA.createdAt,
       no: getDATA.no,
       ques: req.body.ques || getDATA.ques,
       solution: req.body.solution || getDATA.solution,
     });
+
+    prevDoc = db.collection("faqs").doc(req.params.id);
+    queries = await prevDoc.get();
+    getDATA = queries.data();
+
     return res.status(200).send(
       JSON.stringify({
         message: "FAQ updated successfully",
-        data: updateDATA,
+        data: getDATA,
+        updateData: updateDATA,
       })
     );
   } catch (error) {
