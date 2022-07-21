@@ -17,10 +17,22 @@ const getMarker = async () => {
 // Create
 router.post("/v2/post", async (req, res) => {
   try {
-    const count = await db
-      .collection("faqs")
-      .get()
-      .then((res) => res.size);
+    const collData = db.collection("faqs");
+    let data = await collData.get().then((querySnapshot) => {
+      const getDATA = [];
+      querySnapshot.forEach((doc) => {
+        getDATA.push({ id: doc.id, ...doc.data() });
+      });
+      return getDATA;
+    });
+
+    data.sort((a, b) => {
+      return b.no - a.no;
+    });
+    var count;
+    if (data.length === 0) count = 0;
+    else count = data[0].no;
+
     const postDATA = await db.collection("faqs").add({
       createdAt: getDate(),
       no: count + 1,
