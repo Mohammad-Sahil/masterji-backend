@@ -92,7 +92,7 @@ router.put("/v2/put/:id", async (req, res) => {
       JSON.stringify({
         message: "Query updated successfully",
         data: getDATA,
-        updateDATA: updateDATA,
+        updateData: updateDATA,
       })
     );
   } catch (error) {
