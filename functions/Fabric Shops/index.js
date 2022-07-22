@@ -22,7 +22,7 @@ router.post("/v2/post", async (req, res) => {
       name: req.body.name,
       shopName: req.body.shopName,
       shopVariety: req.body.shopVariety,
-      specialisation: req.body.specialisation,
+      specialisation: [req.body.specialisation],
       userImage: req.body.userImage,
       created: getDate(),
     });
