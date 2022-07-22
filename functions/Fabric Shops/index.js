@@ -18,7 +18,7 @@ router.post("/v2/post", async (req, res) => {
       address: req.body.address,
       city: req.body.city,
       contact: req.body.contact,
-      fabricSample: req.body.fabricSample,
+      fabricSample: req.body.fabricSample || [],
       name: req.body.name,
       shopName: req.body.shopName,
       shopVariety: req.body.shopVariety,

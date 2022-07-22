@@ -16,7 +16,7 @@ router.post("/v2/post", async (req, res) => {
       userImage: req.body.userImage,
       workExperience: req.body.workExperience,
       //worksample images urls
-      workSamples: req.body.workSamples,
+      workSamples: req.body.workSamples || [],
     });
 
     const prevDoc = db.collection("fashionConsultant").doc(postDATA._path.segments[1]);
