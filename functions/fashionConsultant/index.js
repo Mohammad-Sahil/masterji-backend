@@ -16,12 +16,18 @@ router.post("/v2/post", async (req, res) => {
       userImage: req.body.userImage,
       workExperience: req.body.workExperience,
       //worksample images urls
-      workSamples: ["work", "samples"],
+      workSamples: req.body.workSamples,
     });
+
+    const prevDoc = db.collection("fashionConsultant").doc(postDATA._path.segments[1]);
+    const queries = await prevDoc.get();
+    const getDATA = queries.data();
+
     return res.status(200).send(
       JSON.stringify({
         message: "Fashion consultant details posted successfully",
-        data: postDATA,
+        data: getDATA,
+        postData: postDATA
       })
     );
   } catch (error) {
@@ -33,9 +39,9 @@ router.post("/v2/post", async (req, res) => {
 //Update
 router.put("/v2/put/:id", async (req, res) => {
   try {
-    const prevDoc = db.collection("fashionConsultant").doc(req.params.id);
-    const queries = await prevDoc.get();
-    const getDATA = queries.data();
+    let prevDoc = db.collection("fashionConsultant").doc(req.params.id);
+    let queries = await prevDoc.get();
+    let getDATA = queries.data();
 
     const document = db.collection("fashionConsultant").doc(req.params.id);
     const updateDATA = await document.update({
@@ -46,15 +52,21 @@ router.put("/v2/put/:id", async (req, res) => {
       name: req.body.name || getDATA.name,
       rate: req.body.rate || getDATA.rate,
       // image firebase url
-      userImage: "userimage" || getDATA.userImage,
+      userImage: req.body.userImage || getDATA.userImage,
       workExperience: req.body.workExperience || getDATA.workExperience,
       //worksample images urls
-      workSamples: ["work", "samples"] || getDATA.workSamples,
+      workSamples: req.body.workSamples || getDATA.workSamples,
     });
+
+    prevDoc = db.collection("fashionConsultant").doc(req.params.id);
+    queries = await prevDoc.get();
+    getDATA = queries.data();
+
     return res.status(200).send(
       JSON.stringify({
         message: "Fashion consultant details updated successfully",
-        data: updateDATA,
+        data: getDATA,
+        updateData: updateDATA,
       })
     );
   } catch (error) {
