@@ -31,6 +31,8 @@ router.post("/v2/post", async (req, res) => {
     const queries = await prevDoc.get();
     const getDATA = queries.data();
 
+    getDATA.id=postDATA._path.segments[1];
+
     return res.status(200).send(
       JSON.stringify({
         message: "Fabric shop details posted successfully",
@@ -69,6 +71,8 @@ router.put("/v2/put/:id", async (req, res) => {
     queries = await prevDoc.get();
     getDATA = queries.data();
 
+    getDATA.id=req.params.id;
+
     return res.status(200).send(
       JSON.stringify({
         message: "Fabric shop details updated successfully",
@@ -83,7 +87,7 @@ router.put("/v2/put/:id", async (req, res) => {
 });
 
 //Read  alll data
-router.get('/v2/get', isAuthenticated, async (req, res) => {
+router.get('/v2/get', async (req, res) => {
 try {
     const collData = db.collection('fabricShops');
     collData.get().then((querySnapshot) => {

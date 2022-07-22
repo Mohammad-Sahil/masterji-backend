@@ -24,6 +24,8 @@ router.post("/v2/post", async (req, res) => {
     const queries = await prevDoc.get();
     const getDATA = queries.data();
 
+    getDATA.id=postDATA._path.segments[1];
+
     return res.status(200).send(
       JSON.stringify({
         message: "About us information posted successfully",
@@ -85,6 +87,8 @@ router.put("/v2/put/:id", async (req, res) => {
     prevDoc = db.collection("aboutus").doc(req.params.id);
     queries = await prevDoc.get();
     getDATA = queries.data();
+
+    getDATA.id=req.params.id;
 
     return res.status(200).send(
       JSON.stringify({
