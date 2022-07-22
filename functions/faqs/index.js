@@ -131,7 +131,7 @@ router.delete("/v2/delete/:id", async (req, res) => {
     const deleteDATA = await document.delete();
     return res.status(200).send(
       JSON.stringify({
-        messsage: "FAQ is deleted successfully",
+        message: "FAQ is deleted successfully",
         data: deleteDATA,
       })
     );

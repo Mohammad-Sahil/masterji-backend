@@ -112,7 +112,7 @@ router.delete("/v2/delete/:id", async (req, res) => {
     const deleteDATA = await document.delete();
     return res.status(200).send(
       JSON.stringify({
-        message: "Query updated successfully",
+        message: "Query deleted successfully",
         data: deleteDATA,
       })
     );

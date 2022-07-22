@@ -13,7 +13,7 @@ router.post("/v2/post", async (req, res) => {
     });
     return res.status(200).send(
       JSON.stringify({
-        message: "Garment details updated successfully",
+        message: "Garment details posted successfully",
         data: postDATA,
       })
     );
