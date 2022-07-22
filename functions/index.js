@@ -5,10 +5,12 @@ const cors = require("cors");
 const app = express();
 const serviceAccount = require("./permissions.json");
 const cookieParser = require('cookie-parser');
+const morgan = require('morgan');
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({extended: false})); 
+app.use(morgan('dev'));
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),

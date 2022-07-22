@@ -6,7 +6,7 @@ const db = admin.firestore();
 const isAuthenticated = async (req, res, next) => {
   try {
       const authHeader = req.headers["authorization"];
-      const cookie = authHeader;
+      const cookie = authHeader && authHeader.split(" ")[1];
       // const cookie = req.cookies.jwt;
       if (!cookie) return res.sendStatus(401);
       console.log(authHeader)
