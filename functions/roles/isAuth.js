@@ -11,6 +11,7 @@ const isAuthenticated = async (req, res, next) => {
       if (!cookie) return res.sendStatus(401);
       console.log(authHeader)
       const tokenVarify = jwt.verify(cookie, process.env.SECRET_KEY);
+      if(!tokenVarify) return res.sendStatus(401)
       const document = db.collection('roles').doc(tokenVarify._id);
       const getDoc = await document.get();
       const getDATA = getDoc.data();
