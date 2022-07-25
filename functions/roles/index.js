@@ -27,6 +27,7 @@ router.post('/v2/register', async (req, res) => {
             const token = jwt.sign({_id: _id}, process.env.SECRET_KEY);
             if(password === cpassword){
                 password = await bcrypt.hash(password,10);
+                console.log('this is new _id',_id);
                 const postDATA = await db.collection('roles').doc(_id).create({
                     password: password,
                     email: req.body.email,
@@ -57,15 +58,14 @@ router.post('/v2/login', async (req, res) => {
     try {
     let password = req.body.password;
     const email = req.body.email;
-    const _id = uniqid();
-    const token = jwt.sign({_id: _id}, process.env.SECRET_KEY);
     const snapshot = await db.collection('roles').where('email', '==', email).get();
     const docs = [];
     snapshot.forEach(doc => {
         docs.push({ id: doc.id, ...doc.data() });
       });
     varifyPass = await bcrypt.compare(password, docs[0].password);
-    if(varifyPass){
+    if(varifyPass){  
+        const token = jwt.sign({_id: docs[0].id}, process.env.SECRET_KEY);
         const document = db.collection('roles').doc(docs[0].id);
         const updateDATA = await document.update({
             password: docs[0].password,
@@ -103,15 +103,16 @@ router.post('/v2/login', async (req, res) => {
 router.get('/v2/logout', isAuthenticated, async(req,res) => {
     try {
         const document = db.collection('roles').doc(req._id);
+        const getDoc = await document.get();
+        const getDATA = getDoc.data();
         const updateDATA = await document.update({
-            password: req.user.password,
-            email: req.user.email,
-            name: req.user.name,
-            role: req.user.role,
-            createdAt: req.user.createdAt,
+            password: getDATA.password,
+            email: getDATA.email,
+            name: getDATA.name,
+            role: getDATA.role,
+            createdAt: getDATA.createdAt,
             token: []
         })
-        res.clearCookie('jwt');
         res.status(200).json({
             message: "Logout Successful"
         })
@@ -125,18 +126,18 @@ router.get('/v2/logout', isAuthenticated, async(req,res) => {
 //Update
 router.put('/v2/put/:id', async (req, res) => {
     try {
+        let prevDoc = db.collection("roles").doc(req.params.id);
+        let getDoc = await prevDoc.get();
+        let getDATA = getDoc.data();
+
         const document = db.collection('roles').doc(req.params.id);
         const updateDATA = await document.update({
-            address: req.body.address,
-            city: req.body.city,
-            contact: req.body.contact,
-            fabricSample: req.body.fabricSample,
-            name: req.body.name,
-            shopName: req.body.shopName,
-            shopVariety: req.body.shopVariety,
-            specialisation: req.body.specialisation,
-            userImage: req.body.userImage,
-            created: new Date(),
+            password: getDATA.password,
+            email:  req.body.email || getDATA.email,
+            name: req.body.name || getDATA.name,
+            role: req.body.role || getDATA.role,
+            createdAt: getDATA.createdAt,
+            token: getDATA.token
         });
         return res.status(200).send(updateDATA);
     } catch (error) {
@@ -169,6 +170,7 @@ try {
     const getDoc = await document.get();
     const getDATA = getDoc.data();
     return res.status(200).send({
+        id: req._id,
         name: getDATA.name,
         email: getDATA.email,
         role: getDATA.role,

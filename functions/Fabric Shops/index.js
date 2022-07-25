@@ -71,7 +71,7 @@ router.put("/v2/put/:id", async (req, res) => {
 });
 
 //Read  alll data
-router.get('/v2/get', isAuthenticated, async (req, res) => {
+router.get('/v2/get', async (req, res) => {
 try {
     const collData = db.collection('fabricShops');
     collData.get().then((querySnapshot) => {
