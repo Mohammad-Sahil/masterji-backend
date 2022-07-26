@@ -11,7 +11,7 @@ router.post("/v2/post", async (req, res) => {
       email: req.body.email,
       name: req.body.name,
       pincode: req.body.pincode,
-      pricing: [req.body.pricing],
+      pricing: req.body.pricing,
       specialization: req.body.specialization,
     });
     return res.status(200).send(
@@ -40,7 +40,7 @@ router.put("/v2/put/:id", async (req, res) => {
       email: req.body.email || getDATA.email,
       name: req.body.name || getDATA.name,
       pincode: req.body.pincode || getDATA.pincode,
-      pricing: [req.body.pricing] || getDATA.pricing,
+      pricing: req.body.pricing || getDATA.pricing,
       specialization: req.body.specialization || getDATA.specialization,
     });
     return res.status(200).send(

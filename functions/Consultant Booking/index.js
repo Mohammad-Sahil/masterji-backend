@@ -25,10 +25,17 @@ router.post("/v2/post", async (req, res) => {
       paymentId: req.body.paymentId,
       userId: req.body.userId,
     });
+
+    const prevDoc = db.collection("fashionConsultantBooking").doc(postDATA._path.segments[1]);
+    const queries = await prevDoc.get();
+    const getDATA = queries.data();
+    getDATA.id=postDATA._path.segments[1];
+
     return res.status(200).send(
       JSON.stringify({
         message: "Booking done successfully",
-        data: postDATA,
+        data: getDATA,
+        postData: postDATA,
       })
     );
   } catch (error) {
@@ -40,11 +47,11 @@ router.post("/v2/post", async (req, res) => {
 //Update
 router.put("/v2/put/:id", async (req, res) => {
   try {
-    const prevDoc = db
+    let prevDoc = db
       .collection("fashionConsultantBooking")
       .doc(req.params.id);
-    const queries = await prevDoc.get();
-    const getDATA = queries.data();
+    let queries = await prevDoc.get();
+    let getDATA = queries.data();
 
     const document = db
       .collection("fashionConsultantBooking")
@@ -62,10 +69,18 @@ router.put("/v2/put/:id", async (req, res) => {
       paymentId: req.body.paymentId || getDATA.paymentId,
       userId: req.body.userId || getDATA.userId,
     });
+
+    prevDoc = db.collection("fashionConsultantBooking").doc(req.params.id);
+    queries = await prevDoc.get();
+    getDATA = queries.data();
+
+    getDATA.id=req.params.id;
+
     return res.status(200).send(
       JSON.stringify({
         message: "Booking details updated sucessfully",
-        data: updateDATA,
+        data: getDATA,
+        updateData: updateDATA,
       })
     );
   } catch (error) {

@@ -25,6 +25,8 @@ router.post("/v2/post", async (req, res) => {
     const queries = await prevDoc.get();
     const getDATA = queries.data();
 
+    getDATA.id=postDATA._path.segments[1];
+
     return res.status(200).send(
       JSON.stringify({
         message: "Query posted successfully",
@@ -79,7 +81,7 @@ router.put("/v2/put/:id", async (req, res) => {
     const updateDATA = await document.update({
       email: req.body.email || getDATA.email,
       message: req.body.message || getDATA.message,
-      resolved: req.body.resolved || getDATA.resolved,
+      resolved: req.body.resolved,
       updatedAt: getDate(),
       date: getDATA.date,
     });
@@ -87,12 +89,14 @@ router.put("/v2/put/:id", async (req, res) => {
     prevDoc = db.collection("query").doc(req.params.id);
     queries = await prevDoc.get();
     getDATA = queries.data();
+    
+    getDATA.id=req.params.id;
 
     return res.status(200).send(
       JSON.stringify({
         message: "Query updated successfully",
         data: getDATA,
-        updateDATA: updateDATA,
+        updateData: updateDATA,
       })
     );
   } catch (error) {
@@ -108,7 +112,7 @@ router.delete("/v2/delete/:id", async (req, res) => {
     const deleteDATA = await document.delete();
     return res.status(200).send(
       JSON.stringify({
-        message: "Query updated successfully",
+        message: "Query deleted successfully",
         data: deleteDATA,
       })
     );

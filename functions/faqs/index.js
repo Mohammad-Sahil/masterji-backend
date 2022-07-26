@@ -43,6 +43,8 @@ router.post("/v2/post", async (req, res) => {
     const prevDoc = db.collection("faqs").doc(postDATA._path.segments[1]);
     const queries = await prevDoc.get();
     const getDATA = queries.data();
+    getDATA.id=postDATA._path.segments[1];
+
 
     return res.status(200).send(
       JSON.stringify({
@@ -75,6 +77,9 @@ router.put("/v2/put/:id", async (req, res) => {
     prevDoc = db.collection("faqs").doc(req.params.id);
     queries = await prevDoc.get();
     getDATA = queries.data();
+
+    getDATA.id=req.params.id;
+
 
     return res.status(200).send(
       JSON.stringify({
@@ -126,7 +131,7 @@ router.delete("/v2/delete/:id", async (req, res) => {
     const deleteDATA = await document.delete();
     return res.status(200).send(
       JSON.stringify({
-        messsage: "FAQ is deleted successfully",
+        message: "FAQ is deleted successfully",
         data: deleteDATA,
       })
     );
