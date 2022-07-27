@@ -12,16 +12,14 @@ router.post("/v2/post", async (req, res) => {
       RfOrderItem: req.body.RfOrderItem,
       phoneNumber: req.body.phoneNumber,
       prePaymentId: req.body.prePaymentId,
-      orderDate: new Date(new Date().getTime() + -8 * 3600 * 1000)
-        .toUTCString()
-        .replace(/ GMT$/, ""),
+      orderDate: new Date(),
       orderID: id,
       timeline: req.body.timeline,
       currentStatus: req.body.currentStatus,
       commentData: req.body.commentData,
       cancelReason: req.body.cancelReason,
-      bookingTime: new Date().getTime(),
-      bookingDate: new Date().getDate(),
+      bookingTime: new Date().toLocaleTimeString(),
+      bookingDate: new Date().toISOString(),
     });
     return res.status(200).send(
       JSON.stringify({
@@ -44,15 +42,18 @@ router.put("/v2/put/:id", async (req, res) => {
 
     const document = db.collection("orders").doc(req.params.id);
     const updateDATA = await document.update({
-      address: req.body.address || getDATA.address,
-      RfOrderItem: req.body.RfOrderItem || getDATA.RfOrderItem,
-      phoneNumber: req.body.phoneNumber || getDATA.phoneNumber,
-      prePaymentId: req.body.prePaymentId || getDATA.prePaymentId,
+      address: req.body.address|| getDATA.address,
+      RfOrderItem: req.body.RfOrderItem|| getDATA.RfOrderItem,
+      phoneNumber: req.body.phoneNumber|| getDATA.phoneNumber,
+      prePaymentId: req.body.prePaymentId|| getDATA.prePaymentId,
+      orderDate: req.body.orderDate || getDATA.orderDate,
+      orderID: req.body.orderID || getDATA.orderID,
       timeline: req.body.timeline || getDATA.timeline,
       currentStatus: req.body.currentStatus || getDATA.currentStatus,
       commentData: req.body.commentData || getDATA.commentData,
       cancelReason: req.body.cancelReason || getDATA.cancelReason,
-      bookingTime: req.body.bookingTime || getDATA.bookingTime,
+      bookingTime: getDATA.bookingTime,
+      bookingDate: getDATA.bookingDate,
     });
     return res.status(200).send(
       JSON.stringify({

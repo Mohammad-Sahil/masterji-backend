@@ -4,10 +4,7 @@ const router = require("express").Router();
 
 // Utils
 const getDate = () => {
-  var offset = -8;
-  return new Date(new Date().getTime() + offset * 3600 * 1000)
-    .toUTCString()
-    .replace(/ GMT$/, "");
+  return new Date();
 };
 
 // Create

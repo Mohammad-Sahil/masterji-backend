@@ -16,7 +16,7 @@ router.post("/v2/post", async (req, res) => {
       userImage: req.body.userImage,
       workExperience: req.body.workExperience,
       //worksample images urls
-      workSamples: req.body.workSamples || [],
+      workSample: req.body.workSample || [],
     });
 
     const prevDoc = db.collection("fashionConsultant").doc(postDATA._path.segments[1]);
@@ -57,7 +57,7 @@ router.put("/v2/put/:id", async (req, res) => {
       userImage: req.body.userImage || getDATA.userImage,
       workExperience: req.body.workExperience || getDATA.workExperience,
       //worksample images urls
-      workSamples: req.body.workSamples || getDATA.workSamples,
+      workSample: req.body.workSample || getDATA.workSample,
     });
 
     prevDoc = db.collection("fashionConsultant").doc(req.params.id);
