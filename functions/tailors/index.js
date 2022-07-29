@@ -12,7 +12,7 @@ router.post("/v2/post", async (req, res) => {
       name: req.body.name,
       pincode: req.body.pincode,
       pricing: req.body.pricing,
-      specialization: req.body.specialization,
+      speciality: req.body.speciality,
     });
     return res.status(200).send(
       JSON.stringify({
