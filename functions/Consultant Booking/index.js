@@ -1,6 +1,7 @@
 const admin = require("firebase-admin");
 const db = admin.firestore();
 const router = require("express").Router();
+const uniqid = require("uniqid");
 // Utils
 const getDate = () => {
   var offset = -8;
@@ -11,11 +12,12 @@ const getDate = () => {
 
 // Create
 router.post("/v2/post", async (req, res) => {
+  const id = uniqid();
   try {
-    const postDATA = await db.collection("fashionConsultantBooking").add({
+    const postDATA = await db.collection("fashionConsultantBooking").doc(id).add({
       amount: req.body.amount,
       bookingDate: req.body.bookingDate,
-      bookingId: req.body.bookingId,
+      bookingId: id,
       bookingTime: req.body.bookingTime,
       consultantId: req.body.consultantId,
       consultantImage: req.body.consultantImage,

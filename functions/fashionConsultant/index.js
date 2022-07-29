@@ -12,10 +12,8 @@ router.post("/v2/post", async (req, res) => {
       expertise: req.body.expertise,
       name: req.body.name,
       rate: req.body.rate,
-      // image firebase url
-      userImage: req.body.userImage,
+      userImage: req.body.userImage || "",
       workExperience: req.body.workExperience,
-      //worksample images urls
       workSamples: req.body.workSamples || [],
     });
 
