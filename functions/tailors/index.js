@@ -41,7 +41,7 @@ router.put("/v2/put/:id", async (req, res) => {
       name: req.body.name || getDATA.name,
       pincode: req.body.pincode || getDATA.pincode,
       pricing: req.body.pricing || getDATA.pricing,
-      specialization: req.body.specialization || getDATA.specialization,
+      speciality: req.body.specialization || getDATA.speciality,
     });
     return res.status(200).send(
       JSON.stringify({
