@@ -2,6 +2,8 @@ const admin = require("firebase-admin");
 const db = admin.firestore();
 const router = require("express").Router();
 
+const twilio = require("./twilio");
+
 // Create
 router.post("/v2/post", async (req, res) => {
   try {
@@ -31,6 +33,10 @@ router.post("/v2/post", async (req, res) => {
       prePaymentId: req.body.prePaymentId || null,
       cancelReason: req.body.cancelReason || null,
     });
+
+    const message = "Your order have been successfully placed, we will get back to you shortly.";
+    twilio(req.body.phoneNumber, message)
+
     return res.status(200).send(
       JSON.stringify({
         message: "Order posted successfully",
@@ -74,6 +80,7 @@ router.put("/v2/put/:id", async (req, res) => {
       prePaymentId: req.body.prePaymentId || getDATA.prePaymentId,
       cancelReason: req.body.cancelReason || getDATA.cancelReason,
     });
+
     return res.status(200).send(
       JSON.stringify({
         message: "Order details updated successfully",
