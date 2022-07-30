@@ -4,8 +4,10 @@ const router = require("express").Router();
 
 // Create
 router.post("/v2/post", async (req, res) => {
+  const id = String(new Date().valueOf());
+  console.log("this is id",id)
   try {
-    const postDATA = await db.collection("Orders").add({
+    const postDATA = await db.collection("Orders").doc(id).create({
       timeline: req.body.timeline || [],
       executive: req.body.executive || {},
       address: req.body.address,
@@ -19,7 +21,7 @@ router.post("/v2/post", async (req, res) => {
       pickupDate: req.body.pickupDate,
       commentData: req.body.commentData,
       pickupTime: req.body.pickupTime,
-      orderId: new Date().valueOf(),
+      orderId: id,
       bookingTime: req.body.bookingTime || new Date().getTime(),
       executiveId: req.body.executiveId,
       flatDiscount: req.body.flatDiscount || 0,
