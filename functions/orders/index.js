@@ -5,13 +5,14 @@ const router = require("express").Router();
 // Create
 router.post("/v2/post", async (req, res) => {
   const id = String(new Date().valueOf());
-  console.log("this is id",id)
   try {
     const postDATA = await db.collection("Orders").doc(id).create({
       timeline: req.body.timeline || [],
       executive: req.body.executive || {},
       address: req.body.address,
-      bookingDate: req.body.bookingDate || new Date(),
+      bookingDate: req.body.bookingDate || new Date(new Date().getTime() + -8 * 3600 * 1000)
+      .toUTCString()
+      .replace(/ GMT$/, ""),
       currentExecutiveName: req.body.currentExecutiveName || "",
       phoneNumber: req.body.phoneNumber,
       RfOrderItem: req.body.RfOrderItem,
@@ -21,7 +22,7 @@ router.post("/v2/post", async (req, res) => {
       pickupDate: req.body.pickupDate,
       commentData: req.body.commentData,
       pickupTime: req.body.pickupTime,
-      orderId: id,
+      orderID: id,
       bookingTime: req.body.bookingTime || new Date().getTime(),
       executiveId: req.body.executiveId,
       flatDiscount: req.body.flatDiscount || 0,
@@ -54,27 +55,27 @@ router.put("/v2/put/:id", async (req, res) => {
 
     const document = db.collection("Orders").doc(req.params.id);
     const updateDATA = await document.update({
-      timeline: req.body.timeline || getDATA.timeline,
-      executive: req.body.executive || getDATA.executive,
-      address: req.body.address || getDATA.address,
-      bookingDate: req.body.bookingDate || getDATA.bookingDate,
-      currentExecutiveName: req.body.currentExecutiveName || getDATA.currentExecutiveName,
-      phoneNumber: req.body.phoneNumber || getDATA.phoneNumber,
-      RfOrderItem: req.body.RfOrderItem || getDATA.RfOrderItem,
-      orderDate: req.body.orderDate || getDATA.orderDate,
-      pickupDate: req.body.pickupDate || getDATA.pickupDate,
-      commentData: req.body.commentData || getDATA.commentData,
-      pickupTime: req.body.pickupTime || getDATA.pickupTime,
-      bookingTime: req.body.bookingTime || getDATA.bookingTime,
-      executiveId: req.body.executiveId || getDATA.executiveId,
-      flatDiscount: req.body.flatDiscount || getDATA.flatDiscount,
-      percentDiscount: req.body.percentDiscount || getDATA.percentDiscount,
-      name: req.body.name || getDATA.name,
-      currentBucket: req.body.currentBucket || getDATA.currentBucket,
-      currentStatus: req.body.currentStatus || getDATA.currentStatus,
-      tailorIds: req.body.tailorIds || getDATA.tailorIds,
-      prePaymentId: req.body.prePaymentId || getDATA.prePaymentId,
-      cancelReason: req.body.cancelReason || getDATA.cancelReason,
+      timeline: req.body.timeline || getDATA.timeline || [],
+      executive: req.body.executive || getDATA.executive || {},
+      address: req.body.address || getDATA.address || {},
+      bookingDate: req.body.bookingDate || getDATA.bookingDate || "",
+      currentExecutiveName: req.body.currentExecutiveName || getDATA.currentExecutiveName || "",
+      phoneNumber: req.body.phoneNumber || getDATA.phoneNumber || "",
+      RfOrderItem: req.body.RfOrderItem || getDATA.RfOrderItem || [],
+      orderDate: req.body.orderDate || getDATA.orderDate || "",
+      pickupDate: req.body.pickupDate || getDATA.pickupDate || "",
+      commentData: req.body.commentData || getDATA.commentData || "",
+      pickupTime: req.body.pickupTime || getDATA.pickupTime || "",
+      bookingTime: req.body.bookingTime || getDATA.bookingTime || "",
+      executiveId: req.body.executiveId || getDATA.executiveId || "",
+      flatDiscount: req.body.flatDiscount || getDATA.flatDiscount || "",
+      percentDiscount: req.body.percentDiscount || getDATA.percentDiscount || "",
+      name: req.body.name || getDATA.name || "",
+      currentBucket: req.body.currentBucket || getDATA.currentBucket || "",
+      currentStatus: req.body.currentStatus || getDATA.currentStatus || "",
+      tailorIds: req.body.tailorIds || getDATA.tailorIds || "",
+      prePaymentId: req.body.prePaymentId || getDATA.prePaymentId || "",
+      cancelReason: req.body.cancelReason || getDATA.cancelReason || "",
     });
     return res.status(200).send(
       JSON.stringify({
