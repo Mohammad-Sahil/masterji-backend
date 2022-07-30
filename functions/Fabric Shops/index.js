@@ -63,8 +63,8 @@ router.put("/v2/put/:id", async (req, res) => {
       shopName: req.body.shopName || getDATA.shopName,
       shopVariety: req.body.shopVariety || getDATA.shopVariety,
       specialisation: req.body.specialisation || getDATA.specialisation,
-      userImage: req.body.userImage,
-      created: getDate(),
+      userImage: req.body.userImage || getDATA.userImage,
+      created: getDATA.created,
     });
 
     prevDoc = db.collection("fabricShops").doc(req.params.id);
