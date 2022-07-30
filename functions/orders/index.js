@@ -1,25 +1,35 @@
 const admin = require("firebase-admin");
 const db = admin.firestore();
 const router = require("express").Router();
-const uniqid = require("uniqid");
 
 // Create
 router.post("/v2/post", async (req, res) => {
   try {
-    const id = uniqid();
-    const postDATA = await db.collection("orders").add({
+    const postDATA = await db.collection("Orders").add({
+      timeline: req.body.timeline || [],
+      executive: req.body.executive || {},
       address: req.body.address,
-      RfOrderItem: req.body.RfOrderItem,
+      bookingDate: req.body.bookingDate || new Date(),
+      currentExecutiveName: req.body.currentExecutiveName || "",
       phoneNumber: req.body.phoneNumber,
-      prePaymentId: req.body.prePaymentId,
-      orderDate: new Date(),
-      orderID: id,
-      timeline: req.body.timeline,
-      currentStatus: req.body.currentStatus,
+      RfOrderItem: req.body.RfOrderItem,
+      orderDate: req.body.orderDate || new Date(new Date().getTime() + -8 * 3600 * 1000)
+        .toUTCString()
+        .replace(/ GMT$/, ""),
+      pickupDate: req.body.pickupDate,
       commentData: req.body.commentData,
-      cancelReason: req.body.cancelReason,
-      bookingTime: new Date().toLocaleTimeString(),
-      bookingDate: new Date().toISOString(),
+      pickupTime: req.body.pickupTime,
+      orderId: new Date().valueOf(),
+      bookingTime: req.body.bookingTime || new Date().getTime(),
+      executiveId: req.body.executiveId,
+      flatDiscount: req.body.flatDiscount || 0,
+      percentDiscount: req.body.percentDiscount || 0,
+      name: req.body.name,
+      currentBucket: req.body.currentBucket,
+      currentStatus: req.body.currentStatus,
+      tailorIds: req.body.tailorIds || [],
+      prePaymentId: req.body.prePaymentId || null,
+      cancelReason: req.body.cancelReason || null,
     });
     return res.status(200).send(
       JSON.stringify({
@@ -36,24 +46,33 @@ router.post("/v2/post", async (req, res) => {
 //Update
 router.put("/v2/put/:id", async (req, res) => {
   try {
-    const prevDoc = db.collection("orders").doc(req.params.id);
+    const prevDoc = db.collection("Orders").doc(req.params.id);
     const queries = await prevDoc.get();
     const getDATA = queries.data();
 
-    const document = db.collection("orders").doc(req.params.id);
+    const document = db.collection("Orders").doc(req.params.id);
     const updateDATA = await document.update({
-      address: req.body.address|| getDATA.address,
-      RfOrderItem: req.body.RfOrderItem|| getDATA.RfOrderItem,
-      phoneNumber: req.body.phoneNumber|| getDATA.phoneNumber,
-      prePaymentId: req.body.prePaymentId|| getDATA.prePaymentId,
-      orderDate: req.body.orderDate || getDATA.orderDate,
-      orderID: req.body.orderID || getDATA.orderID,
       timeline: req.body.timeline || getDATA.timeline,
-      currentStatus: req.body.currentStatus || getDATA.currentStatus,
+      executive: req.body.executive || getDATA.executive,
+      address: req.body.address || getDATA.address,
+      bookingDate: req.body.bookingDate || getDATA.bookingDate,
+      currentExecutiveName: req.body.currentExecutiveName || getDATA.currentExecutiveName,
+      phoneNumber: req.body.phoneNumber || getDATA.phoneNumber,
+      RfOrderItem: req.body.RfOrderItem || getDATA.RfOrderItem,
+      orderDate: req.body.orderDate || getDATA.orderDate,
+      pickupDate: req.body.pickupDate || getDATA.pickupDate,
       commentData: req.body.commentData || getDATA.commentData,
+      pickupTime: req.body.pickupTime || getDATA.pickupTime,
+      bookingTime: req.body.bookingTime || getDATA.bookingTime,
+      executiveId: req.body.executiveId || getDATA.executiveId,
+      flatDiscount: req.body.flatDiscount || getDATA.flatDiscount,
+      percentDiscount: req.body.percentDiscount || getDATA.percentDiscount,
+      name: req.body.name || getDATA.name,
+      currentBucket: req.body.currentBucket || getDATA.currentBucket,
+      currentStatus: req.body.currentStatus || getDATA.currentStatus,
+      tailorIds: req.body.tailorIds || getDATA.tailorIds,
+      prePaymentId: req.body.prePaymentId || getDATA.prePaymentId,
       cancelReason: req.body.cancelReason || getDATA.cancelReason,
-      bookingTime: getDATA.bookingTime,
-      bookingDate: getDATA.bookingDate,
     });
     return res.status(200).send(
       JSON.stringify({
@@ -70,7 +89,7 @@ router.put("/v2/put/:id", async (req, res) => {
 //Read  alll data
 router.get("/v2/get", async (req, res) => {
   try {
-    const collData = db.collection("orders");
+    const collData = db.collection("Orders");
     collData.get().then((querySnapshot) => {
       const getDATA = [];
       querySnapshot.forEach((doc) => {
@@ -87,7 +106,7 @@ router.get("/v2/get", async (req, res) => {
 //Read Single data
 router.get("/v2/get/:id", async (req, res) => {
   try {
-    const document = db.collection("orders").doc(req.params.id);
+    const document = db.collection("Orders").doc(req.params.id);
     const getDoc = await document.get();
     const getDATA = getDoc.data();
     return res.status(200).send(getDATA);
@@ -100,7 +119,7 @@ router.get("/v2/get/:id", async (req, res) => {
 //Delete
 router.delete("/v2/delete/:id", async (req, res) => {
   try {
-    const document = db.collection("orders").doc(req.params.id);
+    const document = db.collection("Orders").doc(req.params.id);
     const deleteDATA = await document.delete();
     return res.status(200).send(
       JSON.stringify({

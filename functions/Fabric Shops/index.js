@@ -23,7 +23,7 @@ router.post("/v2/post", async (req, res) => {
       shopName: req.body.shopName,
       shopVariety: req.body.shopVariety,
       specialisation: req.body.specialisation,
-      userImage: req.body.userImage,
+      userImage: req.body.userImage || "",
       created: getDate(),
     });
 
@@ -63,7 +63,7 @@ router.put("/v2/put/:id", async (req, res) => {
       shopName: req.body.shopName || getDATA.shopName,
       shopVariety: req.body.shopVariety || getDATA.shopVariety,
       specialisation: req.body.specialisation || getDATA.specialisation,
-      userImage: req.body.userImage || getDATA.userImage,
+      userImage: req.body.userImage,
       created: getDate(),
     });
 
