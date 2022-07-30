@@ -2,7 +2,7 @@ const admin = require("firebase-admin");
 const db = admin.firestore();
 const router = require("express").Router();
 
-const twilio = require("./twilio");
+const twilio = require("../twilio");
 
 // Create
 router.post("/v2/post", async (req, res) => {
