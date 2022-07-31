@@ -1,14 +1,21 @@
 require("dotenv").config();
+const functions = require("firebase-functions");
 
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
+let config = require("./env.json");
+
+if(Object.keys(functions.config()).length){
+  config=functions.config();
+}
+
+const accountSid = config.service.twilio_account_sid;
+const authToken = config.service.twilio_auth_token;
 
 const sendSms = (phone, message) => {
   const client = require("twilio")(accountSid, authToken);
   client.messages
     .create({
       body: message,
-      from: process.env.TWILIO_PHONE_NUMBER,
+      from: config.service.twilio_phone_number,
       to: phone,
     })
     .then((message) => console.log(message.sid));
