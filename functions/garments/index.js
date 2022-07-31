@@ -10,6 +10,8 @@ router.post("/v2/post", async (req, res) => {
       city: req.body.city,
       garment_details: req.body.garment_details,
       stitching_category: req.body.stitching_category,
+      male: [],
+      female: []
     });
 
     const prevDoc = db.collection("garments").doc(postDATA._path.segments[1]);
@@ -44,8 +46,9 @@ router.put("/v2/put/:id", async (req, res) => {
       category: req.body.category || getDATA.category,
       city: req.body.city || getDATA.city,
       garment_details: req.body.garment_details || getDATA.garment_details,
-      stitching_category:
-        req.body.stitching_category || getDATA.stitching_category,
+      stitching_category: req.body.stitching_category || getDATA.stitching_category,
+      male: req.body.male || getDATA?.male || [],
+      female: req.body.female || getDATA?.female || [],
     });
 
     prevDoc = db.collection("garments").doc(req.params.id);
