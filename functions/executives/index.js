@@ -86,10 +86,9 @@ router.get("/v2/get-orders/:id", async (req, res) => {
       querySnapshot.forEach((doc) => {
         getDATA.push({ id: doc.id, ...doc.data() });
       });
-      const data = getDATA.filter((order) => {
-        console.log(order.executiveId, req.params.id)
-        order.executiveId === req.params.id;
-      });
+      const data = getDATA.filter(
+        (order) => order.executiveId === req.params.id
+      );
       return res.status(200).send(data);
     });
   } catch (error) {
