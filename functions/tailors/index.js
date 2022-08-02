@@ -72,6 +72,27 @@ router.get("/v2/get", async (req, res) => {
   }
 });
 
+// read tailors in a specific orders 
+router.get("/orders/get/:tailorIds", async (req, res) => {
+  const tailorIds = req.params.tailorIds;
+  try {
+    const collData = db.collection("Orders")
+    .where("tailorIds", "array-contains", `${tailorIds}`);
+    collData.get().then((querySnapshot) => {
+      const getDATA = [];
+      querySnapshot.forEach((doc) => {
+        getDATA.push({ id: doc.id, ...doc.data() });
+      });
+      return res.status(200).send(getDATA);
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error);
+  }
+});
+
+
+
 //Read Single data
 router.get("/v2/get/:id", async (req, res) => {
   try {

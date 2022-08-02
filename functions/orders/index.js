@@ -35,6 +35,7 @@ router.post("/v2/post", async (req, res) => {
       tailorIds: req.body.tailorIds || [],
       prePaymentId: req.body.prePaymentId || null,
       cancelReason: req.body.cancelReason || null,
+      gender: req.body.gender || null
     });
 
     const message = "Your order have been successfully placed, we will get back to you shortly!";
@@ -82,7 +83,8 @@ router.put("/v2/put/:id", async (req, res) => {
       tailorIds: req.body.tailorIds || getDATA.tailorIds || "",
       prePaymentId: req.body.prePaymentId || getDATA.prePaymentId || "",
       cancelReason: req.body.cancelReason || getDATA.cancelReason || "",
-      tailorPaymentDone : req.body.tailorPaymentsDone || false
+      tailorPaymentDone : req.body.tailorPaymentsDone || false,
+      gender: req.body.gender || null
     });
 
     return res.status(200).send(
