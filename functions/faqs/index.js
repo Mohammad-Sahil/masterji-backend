@@ -35,7 +35,7 @@ router.post("/v2/post", async (req, res) => {
 
     const postDATA = await db.collection("faqs").add({
       createdAt: getDate(),
-      no: count + 1,
+      no: req.body.no,
       ques: req.body.ques,
       solution: req.body.solution,
     });
@@ -69,7 +69,7 @@ router.put("/v2/put/:id", async (req, res) => {
     const document = db.collection("faqs").doc(req.params.id);
     const updateDATA = await document.update({
       createdAt: getDATA.createdAt,
-      no: getDATA.no,
+      no: req.body.no || getDATA.no,
       ques: req.body.ques || getDATA.ques,
       solution: req.body.solution || getDATA.solution,
     });
