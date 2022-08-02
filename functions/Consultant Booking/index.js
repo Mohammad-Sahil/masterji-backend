@@ -61,13 +61,13 @@ router.put("/v2/put/:id", async (req, res) => {
     const updateDATA = await document.update({
       amount: req.body.amount || getDATA.amount,
       bookingDate: req.body.bookingDate || getDATA.bookingDate,
-      bookingId: req.body.bookingId || getDATA.bookingId,
+      bookingId: getDATA.bookingId,
       bookingTime: req.body.bookingTime || getDATA.bookingTime,
       consultantId: req.body.consultantId || getDATA.consultantId,
       consultantImage: req.body.consultantImage || getDATA.consultantImage,
       consultantName: req.body.consultantName || getDATA.consultantName,
       expertise: req.body.expertise || getDATA.expertise,
-      orderDate: getDate(),
+      orderDate: getDATA.orderDate,
       paymentId: req.body.paymentId || getDATA.paymentId,
       userId: req.body.userId || getDATA.userId,
     });
