@@ -37,7 +37,7 @@ router.post("/v2/post", async (req, res) => {
       cancelReason: req.body.cancelReason || null,
     });
 
-    const message = "Your order have been successfully placed, we will get back to you shortly.";
+    const message = "Your order have been successfully placed, we will get back to you shortly!";
     twilio(req.body.phoneNumber, message)
 
     return res.status(200).send(
