@@ -20,7 +20,7 @@ router.post("/v2/post", async (req, res) => {
       bookingId: id,
       bookingTime: req.body.bookingTime,
       consultantId: req.body.consultantId,
-      consultantImage: req.body.consultantImage,
+      consultantImage: req.body.consultantImage || [],
       consultantName: req.body.consultantName,
       expertise: req.body.expertise,
       orderDate: getDate(),
