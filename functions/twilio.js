@@ -11,6 +11,7 @@ const accountSid = config.service.twilio_account_sid;
 const authToken = config.service.twilio_auth_token;
 
 const sendSms = (phone, message) => {
+  console.log(config.service.twilio_phone_number);
   const client = require("twilio")(accountSid, authToken);
   client.messages
     .create({

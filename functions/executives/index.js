@@ -77,6 +77,26 @@ router.get("/v2/get", async (req, res) => {
   }
 });
 
+//Read  alll data
+router.get("/v2/get-orders/:id", async (req, res) => {
+  try {
+    const collData = db.collection("orders");
+    collData.get().then((querySnapshot) => {
+      const getDATA = [];
+      querySnapshot.forEach((doc) => {
+        getDATA.push({ id: doc.id, ...doc.data() });
+      });
+      const data = getDATA.filter(
+        (order) => order.executiveId === req.params.id
+      );
+      return res.status(200).send(data);
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error);
+  }
+});
+
 //Read Single data
 router.get("/v2/get/:id", async (req, res) => {
   try {
