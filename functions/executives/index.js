@@ -78,22 +78,18 @@ router.get("/v2/get", async (req, res) => {
 });
 
 //Read  alll data
-router.get("/v2/get-orders/:id", async (req, res) => {
+router.get("/v2/getorders/:executiveId", async (req, res) => {
   try {
-    const collData = db.collection("orders");
+      const collData = db.collection("Orders")
+    .where("executiveId", "==", `${req.params.executiveId}`)
     collData.get().then((querySnapshot) => {
       const getDATA = [];
       querySnapshot.forEach((doc) => {
         getDATA.push({ id: doc.id, ...doc.data() });
       });
-      const data = getDATA.filter(
-        (order) => order.executiveId === req.params.id
-      );
-      console.log(data);
-      return res.status(200).send(data);
+      return res.status(200).send(getDATA);
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).send(error);
   }
 });
