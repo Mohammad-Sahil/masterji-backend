@@ -14,7 +14,10 @@ router.post("/v2/post", async (req, res) => {
     });
     twilio(
       req.body.contactNo,
-      "Your MasterJi Account have been successfully created!"
+      `Welcome💛
+      Greetings from Masterji!
+      Thank you for signing up, we are happy to have you in our family. 
+      We are here to help, your wish is our command.`
     );
     return res.status(200).send(
       JSON.stringify({

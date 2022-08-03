@@ -38,7 +38,11 @@ router.post("/v2/post", async (req, res) => {
       gender: req.body.gender || null
     });
 
-    const message = "Your order have been successfully placed, we will get back to you shortly!";
+    const message = `
+    Thank you for shopping with us. We are grateful to inform you that your order has been received.
+    You will receive an email and message with a tracking number, so that you can track the surprise on it's way. 💛
+    For order cancellation or returns, kindly see this link (insert link)  or notify us at (email) 
+    `;
     twilio(req.body.phoneNumber, message)
 
     return res.status(200).send(
