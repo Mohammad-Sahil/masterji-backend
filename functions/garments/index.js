@@ -6,13 +6,13 @@ const router = require("express").Router();
 router.post("/v2/post", async (req, res) => {
   try {
     const postDATA = await db.collection("garments").add({
-      category: req.body.category || "FEMALE",
+      category: req.body.category,
       city: req.body.city,
       garment_details: req.body.garment_details,
       stitching_category: req.body.stitching_category,
-      gender: req.body.gender || [],
-      male: [],
-      female: []
+      // gender: req.body.gender || [],
+      // male: [],
+      // female: []
     });
 
     const prevDoc = db.collection("garments").doc(postDATA._path.segments[1]);
@@ -44,13 +44,13 @@ router.put("/v2/put/:id", async (req, res) => {
     
     const document = db.collection("garments").doc(req.params.id);
     const updateDATA = await document.update({
-      category: req.body.category || getDATA.category || "FEMALE",
+      category: req.body.category || getDATA.category,
       city: req.body.city || getDATA.city,
       garment_details: req.body.garment_details || getDATA.garment_details,
       stitching_category: req.body.stitching_category || getDATA.stitching_category,
-      male: req.body.male || getDATA?.male || [],
-      female: req.body.female || getDATA?.female || [],
-      gender: req.body.gender || getDATA?.gender || []
+      // male: req.body.male || getDATA?.male || [],
+      // female: req.body.female || getDATA?.female || [],
+      // gender: req.body.gender || getDATA?.gender || []
     });
 
     prevDoc = db.collection("garments").doc(req.params.id);

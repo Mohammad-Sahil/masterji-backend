@@ -51,7 +51,7 @@ router.put("/v2/put/:id", async (req, res) => {
     return res.status(200).send(
       JSON.stringify({
         message: "Executive details updated successfully",
-        data: updateDATA,
+        data: getDATA,
       })
     );
   } catch (error) {
@@ -89,6 +89,7 @@ router.get("/v2/get-orders/:id", async (req, res) => {
       const data = getDATA.filter(
         (order) => order.executiveId === req.params.id
       );
+      console.log(data);
       return res.status(200).send(data);
     });
   } catch (error) {
