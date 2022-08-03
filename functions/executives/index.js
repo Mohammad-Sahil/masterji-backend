@@ -18,10 +18,17 @@ router.post("/v2/post", async (req, res) => {
         // phoneNumber: req.body.phoneNumber,
         id: req.body.id,
       });
+
+    const prevDoc = db.collection("executives").doc(postDATA._path.segments[1]);
+    const queries = await prevDoc.get();
+    const getDATA = queries.data();
+    getDATA.id = postDATA._path.segments[1];
+
     return res.status(200).send(
       JSON.stringify({
         message: "Executives details added successfully",
-        data: postDATA,
+        data: getDATA,
+        postData: postDATA,
       })
     );
   } catch (error) {
@@ -33,9 +40,9 @@ router.post("/v2/post", async (req, res) => {
 //Update
 router.put("/v2/put/:id", async (req, res) => {
   try {
-    const prevDoc = db.collection("executives").doc(req.params.id);
-    const queries = await prevDoc.get();
-    const getDATA = queries.data();
+    let prevDoc = db.collection("executives").doc(req.params.id);
+    let queries = await prevDoc.get();
+    let getDATA = queries.data();
 
     const document = db.collection("executives").doc(req.params.id);
     const updateDATA = await document.update({
@@ -48,10 +55,18 @@ router.put("/v2/put/:id", async (req, res) => {
       name: req.body.name || getDATA.name,
       pincode: req.body.pincode || getDATA.pincode,
     });
+
+    prevDoc = db.collection("executives").doc(req.params.id);
+    queries = await prevDoc.get();
+    getDATA = queries.data();
+
+    getDATA.id = req.params.id;
+
     return res.status(200).send(
       JSON.stringify({
         message: "Executive details updated successfully",
         data: getDATA,
+        updateData: updateDATA,
       })
     );
   } catch (error) {
@@ -80,8 +95,9 @@ router.get("/v2/get", async (req, res) => {
 //Read  alll data
 router.get("/v2/getorders/:executiveId", async (req, res) => {
   try {
-      const collData = db.collection("Orders")
-    .where("executiveId", "==", `${req.params.executiveId}`)
+    const collData = db
+      .collection("Orders")
+      .where("executiveId", "==", `${req.params.executiveId}`);
     collData.get().then((querySnapshot) => {
       const getDATA = [];
       querySnapshot.forEach((doc) => {

@@ -14,10 +14,18 @@ router.post("/v2/post", async (req, res) => {
       pricing: req.body.pricing,
       speciality: req.body.speciality,
     });
+
+    const prevDoc = db.collection("tailors").doc(postDATA._path.segments[1]);
+    const queries = await prevDoc.get();
+    const getDATA = queries.data();
+    getDATA.id=postDATA._path.segments[1];
+
+
     return res.status(200).send(
       JSON.stringify({
         message: "Tailor data posted successfully",
-        data: postDATA,
+        data: getDATA,
+        postData: postDATA,
       })
     );
   } catch (error) {
@@ -29,9 +37,9 @@ router.post("/v2/post", async (req, res) => {
 //Update
 router.put("/v2/put/:id", async (req, res) => {
   try {
-    const prevDoc = db.collection("tailors").doc(req.params.id);
-    const queries = await prevDoc.get();
-    const getDATA = queries.data();
+    let prevDoc = db.collection("tailors").doc(req.params.id);
+    let queries = await prevDoc.get();
+    let getDATA = queries.data();
 
     const document = db.collection("tailors").doc(req.params.id);
     const updateDATA = await document.update({
@@ -43,11 +51,19 @@ router.put("/v2/put/:id", async (req, res) => {
       pricing: req.body.pricing || getDATA.pricing,
       speciality: req.body.specialization || getDATA.speciality,
     });
+
+
+    prevDoc = db.collection("tailors").doc(req.params.id);
+    queries = await prevDoc.get();
+    getDATA = queries.data();
+
+    getDATA.id=req.params.id;
+
     return res.status(200).send(
       JSON.stringify({
         message: "Tailor data updated successfully",
-        data: updateDATA,
-        getData: getDATA,
+        data: getDATA,
+        updateData: updateDATA,
       })
     );
   } catch (error) {
