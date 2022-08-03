@@ -47,6 +47,7 @@ router.put("/v2/put/:id", async (req, res) => {
       JSON.stringify({
         message: "Tailor data updated successfully",
         data: updateDATA,
+        getData: getDATA,
       })
     );
   } catch (error) {
