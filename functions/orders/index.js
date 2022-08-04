@@ -12,9 +12,7 @@ router.post("/v2/post", async (req, res) => {
       timeline: req.body.timeline || [],
       executive: req.body.executive || {},
       address: req.body.address,
-      bookingDate: req.body.bookingDate || new Date(new Date().getTime() + -8 * 3600 * 1000)
-      .toUTCString()
-      .replace(/ GMT$/, ""),
+      bookingDate: req.body.bookingDate || req.body.pickupTime,
       currentExecutiveName: req.body.currentExecutiveName || "",
       phoneNumber: req.body.phoneNumber,
       RfOrderItem: req.body.RfOrderItem,
@@ -25,7 +23,7 @@ router.post("/v2/post", async (req, res) => {
       commentData: req.body.commentData,
       pickupTime: req.body.pickupTime,
       orderID: id,
-      bookingTime: req.body.bookingTime || new Date().getTime(),
+      bookingTime: req.body.bookingTime || req.body.pickupTime,
       executiveId: req.body.executiveId,
       flatDiscount: req.body.flatDiscount || 0,
       percentDiscount: req.body.percentDiscount || 0,
