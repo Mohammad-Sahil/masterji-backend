@@ -12,7 +12,7 @@ router.post("/v2/post", async (req, res) => {
       timeline: req.body.timeline || [],
       executive: req.body.executive || {},
       address: req.body.address,
-      bookingDate: req.body.bookingDate || req.body.pickupTime,
+      bookingDate: req.body.bookingDate || req.body.pickupDate,
       currentExecutiveName: req.body.currentExecutiveName || "",
       phoneNumber: req.body.phoneNumber,
       RfOrderItem: req.body.RfOrderItem,
