@@ -87,7 +87,7 @@ router.put("/v2/put/:id", async (req, res) => {
       tailorIds: req.body.tailorIds || getDATA.tailorIds || "",
       prePaymentId: req.body.prePaymentId || getDATA.prePaymentId || "",
       cancelReason: req.body.cancelReason || getDATA.cancelReason || "",
-      tailorPaymentDone : req.body.tailorPaymentsDone || false,
+      tailorPaymentsDone : req.body.tailorPaymentsDone || false,
       gender: req.body.gender || null
     });
 
