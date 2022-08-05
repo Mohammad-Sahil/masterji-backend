@@ -19,10 +19,19 @@ router.post("/v2/post", async (req, res) => {
         id: req.body.id,
       });
 
+    const document = db
+    .collection("executives")
+    .doc(req.body.id);
+
+    const getDoc = await document.get();
+    const getDATA = getDoc.data();
+
+  /*const getDoc = await document.get();
+  const getDATA = getDoc.data();
     const prevDoc = db.collection("executives").doc(postDATA._path.segments[1]);
     const queries = await prevDoc.get();
     const getDATA = queries.data();
-    getDATA.id = postDATA._path.segments[1];
+    getDATA.id = postDATA._path.segments[1];*/
 
     return res.status(200).send(
       JSON.stringify({

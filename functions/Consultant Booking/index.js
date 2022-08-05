@@ -14,13 +14,13 @@ const getDate = () => {
 router.post("/v2/post", async (req, res) => {
   const id = uniqid();
   try {
-    const postDATA = await db.collection("fashionConsultantBooking").doc(id).add({
+    const postDATA = await db.collection("fashionConsultantBooking").doc(id).create({
       amount: req.body.amount,
       bookingDate: req.body.bookingDate,
       bookingId: id,
       bookingTime: req.body.bookingTime,
       consultantId: req.body.consultantId,
-      consultantImage: req.body.consultantImage || [],
+      consultantImage: req.body.consultantImage || "",
       consultantName: req.body.consultantName,
       expertise: req.body.expertise,
       orderDate: getDate(),
@@ -28,10 +28,11 @@ router.post("/v2/post", async (req, res) => {
       userId: req.body.userId,
     });
 
-    const prevDoc = db.collection("fashionConsultantBooking").doc(postDATA._path.segments[1]);
-    const queries = await prevDoc.get();
-    const getDATA = queries.data();
-    getDATA.id=postDATA._path.segments[1];
+    const document = db
+    .collection("fashionConsultantBooking")
+    .doc(id);
+  const getDoc = await document.get();
+  const getDATA = getDoc.data();
 
     return res.status(200).send(
       JSON.stringify({
