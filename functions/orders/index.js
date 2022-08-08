@@ -155,9 +155,9 @@ router.get('/v2/getamount/:id',async(req,res)=>{
     key_id:'rzp_live_BZ5UVPcQ5INZaU',
     key_secret:'KWDDSIkT762xylrSuGTwrkkF'
 });
-const {amount} = await instance.payments.fetch(req.params.id)
+const data = await instance.payments.fetch(req.params.id)
 
-    return res.status(200).send(amount);
+    return res.status(200).send(data);
 
   } catch (error) {
     console.log(error)
