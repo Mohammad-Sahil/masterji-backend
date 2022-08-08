@@ -3,6 +3,7 @@ const db = admin.firestore();
 const router = require("express").Router();
 
 const twilio = require("../twilio");
+const Razorpay= require('razorpay')
 
 // Create
 router.post("/v2/post", async (req, res) => {
@@ -147,5 +148,21 @@ router.delete("/v2/delete/:id", async (req, res) => {
     return res.status(500).send(error);
   }
 });
+
+router.get('/v2/getamount/:id',async(req,res)=>{
+  try {
+  var instance = new Razorpay({
+    key_id:'rzp_live_BZ5UVPcQ5INZaU',
+    key_secret:'KWDDSIkT762xylrSuGTwrkkF'
+});
+const {amount} = await instance.payments.fetch(req.params.id)
+
+    return res.status(200).send(amount);
+
+  } catch (error) {
+    console.log(error)
+    return res.status(500).send(error)
+  }
+})
 
 module.exports = router;
