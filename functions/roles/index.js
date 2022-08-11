@@ -81,7 +81,8 @@ router.post('/v2/login', async (req, res) => {
             user: [{
                 email: docs[0].email,
                 name: docs[0].name,
-                role: docs[0].role
+                role: docs[0].role,
+                id: docs[0].id
             }],
             token: token
           });
